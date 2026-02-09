@@ -1,42 +1,102 @@
-# Equinox - AI-Powered Wellness & Productivity Assistant
+# 🌅 Equinox - Your AI-Powered Life OS
 
-A full-stack multi-agent AI application that helps manage your wellness and productivity through intelligent chat-based interactions.
+<div align="center">
 
-## Features
+**Balance your health, productivity, and focus with one intelligent platform**
 
-### Multi-Agent Architecture
-- **Supervisor Agent**: Routes queries to the appropriate specialist
-- **Wellness Agent**: Handles health, sleep, readiness, and workout queries
-- **Productivity Agent**: Manages emails, notes, todos, and task management
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-equinox0.netlify.app-blue?style=for-the-badge)](https://equinox0.netlify.app)
+[![Built with Opik](https://img.shields.io/badge/📊_Observability-Opik-orange?style=for-the-badge)](https://www.comet.com/opik)
+[![LangChain](https://img.shields.io/badge/🧠_AI-LangChain-green?style=for-the-badge)](https://langchain.com)
 
-### Integrations
-- **Google OAuth**: Sign in with Google to access email summaries
-- **Opik Tracing**: LLM observability and conversation threading
-- **PostgreSQL**: Persistent storage for notes, todos, and chat history
+</div>
+
+---
+
+## 🎯 The Problem
+
+Modern professionals are overwhelmed:
+- **35+ apps switched daily** — health trackers, task managers, calendars, emails
+- **No unified intelligence** — nothing connects your wellness with your productivity
+- **Decision fatigue & burnout** — without a single source of truth, priorities slip through
+
+## 💡 Our Solution
+
+**Equinox** is an AI-powered life OS that unifies your health, tasks, and emails with multi-agent intelligence — fully traced using **Opik** for complete LLM observability.
+
+---
+
+## ✨ Key Features
+
+### 🤖 Multi-Agent Architecture
+| Agent | Responsibility |
+|-------|----------------|
+| **Supervisor** | Routes queries to the appropriate specialist agent |
+| **Wellness Agent** | Handles health, sleep, readiness, and workout queries |
+| **Productivity Agent** | Manages emails, notes, todos, and calendar |
+| **Briefing Agent** | Generates personalized morning summaries |
+
+### 🌅 AI Morning Briefing
+Wake up to a personalized summary:
+- 🌙 Sleep Score (calculated from wellness data)
+- 📧 Critical email count
+- ✅ Today's task overview
+- 💬 AI-generated motivational summary
+
+### 💬 Agentic Chatbot
+Natural language interface to manage your day:
+```
+"What are my tasks for today?"
+"Do I have any critical emails?"
+"How did I sleep last night?"
+```
+
+### 📊 Full Opik Observability
+Every AI agent call is traced with **Opik**:
+- LLM prompts and responses
+- Latency and token usage
+- Tool calls and agent decisions
+- Conversation threading by `thread_id`
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| **FastAPI** | High-performance Python API |
+| **LangChain + LangGraph** | Multi-agent orchestration |
+| **Groq (Llama 3.3 70B)** | Fast LLM inference |
+| **PostgreSQL** | Persistent data storage |
+| **Opik** | LLM observability & tracing |
+| **Google OAuth 2.0** | Gmail & Tasks integration |
 
 ### Frontend
-- Modern React + TypeScript UI with Vite
-- Markdown-rendered chat responses
-- Note-taking with auto-save
-- Todo management
-- Chat history persistence
+| Technology | Purpose |
+|------------|---------|
+| **React 19 + TypeScript** | Modern UI framework |
+| **Vite** | Fast build tooling |
+| **React Router** | Client-side navigation |
+| **React Markdown (GFM)** | Rich chat rendering |
 
-## Quick Start
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 - Python 3.10+
 - Node.js 18+
 - PostgreSQL database
 - API Keys:
-  - Groq API key (https://console.groq.com/keys)
-  - Opik API key (https://www.comet.com/opik)
-  - Google OAuth credentials (for email integration)
+  - [Groq API](https://console.groq.com/keys)
+  - [Opik API](https://www.comet.com/opik)
+  - [Google OAuth Credentials](https://console.cloud.google.com/)
 
 ### One-Command Startup
 
 ```bash
-# Clone and setup
-git clone <repo-url>
+# Clone the repository
+git clone https://github.com/Deep99739/equinox.git
 cd equinox
 
 # Configure environment
@@ -57,86 +117,122 @@ Create `backend/.env`:
 GROQ_API_KEY=your_groq_api_key
 DATABASE_URL=postgresql://user:pass@localhost:5432/equinox
 
-# Observability 
+# Opik Observability (Required for tracing)
 OPIK_API_KEY=your_opik_api_key
-OPIK_WORKSPACE=your_workspace (Optional but recommended)
+OPIK_WORKSPACE=your_opik_workspace
+OPIK_PROJECT_NAME=equinox
 
-# Google OAuth (for email features)
+# Google OAuth (for Gmail & Tasks)
 GOOGLE_CLIENT_ID=your_client_id
 GOOGLE_CLIENT_SECRET=your_client_secret
 ```
 
-## Project Structure
+---
+
+## 📁 Project Structure
 
 ```
 equinox/
 ├── backend/
 │   ├── agents/
+│   │   ├── briefing/        # Morning briefing agent
 │   │   ├── productivity/    # Email, notes, todos agent
 │   │   └── wellness/        # Health and fitness agent
-│   ├── supervisor/          # Query router
+│   ├── supervisor/          # Query router (LangGraph)
 │   ├── api/                 # REST endpoints
-│   ├── database/            # Models and connection
-│   ├── tools/               # Google auth utilities
-│   └── main.py              # FastAPI app
+│   │   ├── briefing.py      # Briefing generation
+│   │   ├── todos.py         # Task management
+│   │   ├── notes.py         # Note-taking
+│   │   └── google_oauth.py  # OAuth flow
+│   ├── database/            # SQLAlchemy models
+│   ├── state/               # User token management
+│   ├── tools/               # Google API utilities
+│   └── main.py              # FastAPI application
 ├── frontend/
 │   ├── src/
 │   │   ├── pages/
-│   │   │   ├── Chat/        # Chat interface
-│   │   │   ├── Productivity/# Notes, Todos
+│   │   │   ├── Home/        # Landing page
+│   │   │   ├── Chat/        # Agentic chatbot
+│   │   │   ├── Briefing/    # Morning briefing
+│   │   │   ├── Productivity/# Notes & Todos
 │   │   │   └── Wellness/    # Health dashboard
-│   │   ├── components/      # Shared components
-│   │   └── api/             # API utilities
+│   │   ├── components/      # Shared UI components
+│   │   └── api/             # API client utilities
 │   └── package.json
-└── startup.sh               # Dev startup script
+└── startup.sh               # Development startup script
 ```
 
-## API Endpoints
+---
+
+## 🔌 API Endpoints
 
 ### Core
-- `GET /ping` - Health check
-- `POST /supervisor` - Send message to AI
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/ping` | Health check |
+| `POST` | `/supervisor` | Send message to AI supervisor |
 
-### Notes
-- `GET /notes/{email}` - Get user notes
-- `POST /notes/` - Create note
-- `PATCH /notes/{id}` - Update note
-- `DELETE /notes/{id}` - Delete note
+### Briefing
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/briefing/generate` | Generate morning briefing |
+| `POST` | `/api/briefing/send-email` | Email briefing to user |
 
 ### Todos
-- `GET /todos/{email}` - Get user todos
-- `POST /todos/` - Create todo
-- `PATCH /todos/{id}` - Toggle/update todo
-- `DELETE /todos/{id}` - Delete todo
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/todos/{email}` | Get user todos (Local + Google Tasks) |
+| `POST` | `/todos/` | Create todo |
+| `PATCH` | `/todos/{id}` | Toggle/update todo |
+| `DELETE` | `/todos/{id}` | Delete todo |
+
+### Notes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/notes/{email}` | Get user notes |
+| `POST` | `/notes/` | Create note |
+| `PATCH` | `/notes/{id}` | Update note |
+| `DELETE` | `/notes/{id}` | Delete note |
 
 ### Chat History
-- `GET /api/history/{email}` - Get all threads
-- `GET /api/history/{email}/{thread_id}` - Get specific thread
-- `POST /api/history/{email}/{thread_id}` - Save thread
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/history/{email}` | Get all conversation threads |
+| `GET` | `/api/history/{email}/{thread_id}` | Get specific thread |
+| `POST` | `/api/history/{email}/{thread_id}` | Save thread |
 
-## Tech Stack
+---
 
-### Backend
-- FastAPI + Uvicorn
-- LangGraph + LangChain
-- Groq (Llama 3.3 70B)
-- SQLAlchemy + PostgreSQL
-- Opik (LLM observability)
+## 📊 Opik Integration
 
-### Frontend
-- React 19 + TypeScript
-- Vite
-- React Router
-- React Markdown (GFM)
-- Lucide Icons
+Equinox uses **Opik** for complete LLM observability:
 
-## Development
+### What's Traced
+- ✅ All LangChain agent invocations
+- ✅ Tool calls (Gmail, Tasks, Notes)
+- ✅ LLM prompts and responses
+- ✅ Latency and token usage
+- ✅ Conversation threading
+
+### Viewing Traces
+1. Go to [comet.com/opik](https://www.comet.com/opik)
+2. Navigate to the `equinox` project
+3. View traces grouped by `thread_id`
+
+### Why Opik?
+- **Debug AI issues** — See exactly what the LLM received and responded
+- **Optimize costs** — Monitor token usage across agents
+- **Improve quality** — Analyze agent decisions and tool usage
+
+---
+
+## 🧪 Development
 
 ### Backend
 ```bash
 cd backend
 pip install -r requirements.txt
-python -m uvicorn main:app --reload
+python -m uvicorn main:app --reload --port 8000
 ```
 
 ### Frontend
@@ -146,26 +242,36 @@ npm install
 npm run dev
 ```
 
-## Observability
+---
 
-Traces are sent to Opik under the `equinox` project. Each conversation is grouped by `thread_id` for easy debugging.
+## 🐛 Troubleshooting
 
-View traces at: https://www.comet.com/opik
+| Issue | Solution |
+|-------|----------|
+| `OPIK_API_KEY not found` | Set in `backend/.env` |
+| Google OAuth errors | Verify `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` |
+| Rate limiting (429) | Groq free tier: 30 req/min. Wait or upgrade. |
+| Database connection errors | Verify `DATABASE_URL` and PostgreSQL is running |
+| Briefing shows 0 emails/tasks | Re-authenticate with Google OAuth |
 
-## Troubleshooting
+---
 
-### "OPIK_API_KEY not found"
-Set the environment variable in `backend/.env`
+## 👨‍💻 Author
 
-### Google OAuth errors
-Ensure `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set
+**Deepak Kumar**
 
-### Rate limiting (429)
-Groq free tier: 30 req/min. Wait or upgrade plan.
+---
 
-### Database connection errors
-Verify `DATABASE_URL` and that PostgreSQL is running
+## 📄 License
 
-## License
+MIT License - see [LICENSE](LICENSE) for details.
 
-MIT
+---
+
+<div align="center">
+
+**🌅 Equinox — Balance your day with AI**
+
+*Built with ❤️ for the Opik Hackathon*
+
+</div>
