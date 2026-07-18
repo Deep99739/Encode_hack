@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db, User
 from state.user_tokens import save_user_tokens
+from utils.auth_middleware import create_access_token
 
 router = APIRouter()
 
@@ -113,8 +114,11 @@ def google_callback(request: Request, db: Session = Depends(get_db)):
 
     save_user_tokens(google_email, tokens)
 
+    # Generate JWT for the authenticated user
+    jwt_token = create_access_token(google_email)
+
     return RedirectResponse(
-        f"{FRONTEND_URL}/chat?email={google_email}"
+        f"{FRONTEND_URL}/chat?email={google_email}&token={jwt_token}"
     )
 
 

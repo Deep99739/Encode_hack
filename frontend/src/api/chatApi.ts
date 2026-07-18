@@ -1,4 +1,6 @@
 // chat api - supports multiple agents
+import { getAuthHeaders } from '../utils/authUtils';
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export type AgentType = 'wellness' | 'productivity' | 'supervisor';
@@ -21,7 +23,10 @@ export async function sendChatMessage(
 
     const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        },
         body: JSON.stringify({ message, email, thread_id: threadId })
     });
 
@@ -41,7 +46,10 @@ export async function saveThread(
 ): Promise<any> {
     const res = await fetch(`${API_URL}/api/history/${email}/${threadId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        },
         body: JSON.stringify({
             messages,
             title
@@ -59,7 +67,9 @@ export async function getThread(
     threadId: string,
     _port: string = '8000'
 ): Promise<any> {
-    const res = await fetch(`${API_URL}/api/history/${email}/${threadId}`);
+    const res = await fetch(`${API_URL}/api/history/${email}/${threadId}`, {
+        headers: getAuthHeaders()
+    });
     if (!res.ok) {
         throw new Error('Thread not found');
     }

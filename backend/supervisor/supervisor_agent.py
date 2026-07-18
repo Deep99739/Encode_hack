@@ -14,8 +14,10 @@ from .state import SupervisorState
 from agents.wellness.agent import get_wellness_agent
 from agents.productivity.agent import get_productivity_agent
 
+from agents.constants import FORMATTING_PROMPT
+
 # The supervisor's system prompt instructs it to route queries.
-SYSTEM_PROMPT = """You are the Supervisor Agent for Equinox.
+SYSTEM_PROMPT = f"""You are the Supervisor Agent for Equinox.
 Your job is to route user requests to the appropriate specialist agent.
 
 Specialist Agents:
@@ -25,6 +27,8 @@ Specialist Agents:
 If the user greets you or asks a general question, you can answer directly, but try to steer them to a topic.
 If you answer directly, set 'next' to 'end'.
 If you route to an agent, set 'next' to 'wellness' or 'productivity'.
+
+{FORMATTING_PROMPT} (when answering directly)
 """
 
 # Output structure for routing
